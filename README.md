@@ -17,7 +17,7 @@ as instructions.
 |---|---|
 | **Reviews like a PR** | Overview (the conversation), Review (screenshots, live or on mobile, changes) and Versions (like commits). |
 | **Anchored comments** | On a point of a screenshot, of the live site or of a moment in a video. They stay open in the next version. |
-| **Visual diff** | Numbered zones that changed between versions. Identical screens are hidden. |
+| **Visual diff** | Numbered zones that changed between versions. Identical screens are hidden. A **Scanner** sweeps the new screen over the old one and stamps each zone as the beam passes it. |
 | **Test kit** | Users, codes, products… each with its own QR, one at a time. Each app defines its own data types. |
 | **Mobile apps** | Expo/Metro or EAS Update QR, deep link or download; screenshots from a simulator, Maestro or Appium. |
 | **Guests** | A link that opens a single review, revocable and with an expiry date. Guests comment; approving is for accounts. |

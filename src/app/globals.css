@@ -241,3 +241,52 @@ dialog.sheet::backdrop {
     }
   }
 }
+
+/* Escáner: the "now" screenshot is swept in from top to bottom, and each changed zone
+   stamps in as the beam passes it. Without motion, the final frame is shown at once. */
+.scanner-now {
+  clip-path: inset(0 0 0 0);
+}
+.scanner-beam {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scanner-run .scanner-now {
+    animation: scanner-reveal var(--scan-ms, 2400ms) linear both;
+  }
+  .scanner-run .scanner-beam {
+    display: block;
+    animation: scanner-beam var(--scan-ms, 2400ms) linear both;
+  }
+  .scanner-run .scanner-zone {
+    animation: scanner-stamp 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--at, 0) * var(--scan-ms, 2400ms));
+  }
+  @keyframes scanner-reveal {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes scanner-beam {
+    from {
+      top: 0;
+      opacity: 1;
+    }
+    95% {
+      opacity: 1;
+    }
+    to {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+  @keyframes scanner-stamp {
+    from {
+      opacity: 0;
+      transform: scale(1.12);
+    }
+  }
+}
