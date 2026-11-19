@@ -1,9 +1,9 @@
 /*!
- * Vistazo bridge — opcional. Inclúyelo en la app que se revisa:
- *   <script src="https://<tu-vistazo>/bridge.js" defer></script>
- * Solo se activa dentro de un iframe cuyo padre sea el MISMO origen del que se
- * cargó este script. No envía nada a ningún servidor: solo habla con la ventana
- * de Vistazo por postMessage (URL actual, elemento señalado). No lee formularios.
+ * Vistazo bridge — optional. Include it in the app under review:
+ *   <script src="https://<your-vistazo>/bridge.js" defer></script>
+ * It only activates inside an iframe whose parent is the SAME origin this
+ * script was loaded from. It sends nothing to any server: it only talks to the
+ * Vistazo window via postMessage (current URL, picked element). It does not read forms.
  */
 (function () {
   if (window.parent === window) return;
@@ -23,7 +23,7 @@
     send({ vz: kind, url: location.href });
   }
 
-  // Selector estable: data-testid > id > ruta corta de etiquetas con nth-of-type.
+  // Stable selector: data-testid > id > short tag path with nth-of-type.
   function selectorOf(el) {
     if (!(el instanceof Element)) return "";
     var t = el.closest("[data-testid]");
@@ -98,7 +98,7 @@
       }
       var d = document.createElement("div");
       d.textContent = p.n;
-      d.title = "Comentario " + p.n;
+      d.title = "Comment " + p.n;
       d.style.cssText = "position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;border:2px solid #fff;color:#fff;font:700 11px/18px system-ui;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.3);background:" + (p.resolved ? "#127a4a" : "#ff5b1f");
       d.style.left = x + "px"; d.style.top = y + "px";
       pinLayer.appendChild(d);
@@ -115,7 +115,7 @@
   document.addEventListener("click", onClick, true);
   window.addEventListener("resize", drawPins);
 
-  // Navegación en SPA: avisar del cambio de URL.
+  // SPA navigation: report URL changes.
   var last = location.href;
   setInterval(function () {
     if (location.href !== last) { last = location.href; hello("nav"); setTimeout(drawPins, 300); }
