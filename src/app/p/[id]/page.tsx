@@ -403,7 +403,7 @@ function Settings({ d, reload }: { d: Data; reload: () => void }) {
               ["other", "Other"],
             ] as const
           ).map(([k, l]) => (
-            <button key={k} role="radio" aria-checked={platform === k} aria-selected={platform === k} disabled={!can} onClick={() => setPlatform(k)}>
+            <button key={k} role="radio" aria-checked={platform === k} disabled={!can} onClick={() => setPlatform(k)}>
               {l}
             </button>
           ))}

@@ -107,7 +107,7 @@ export default function LiveView({ ctx, url }: { ctx: Ctx; url: string }) {
         )}
         <div className="segmented" role="group" aria-label="Screen size">
           {DEVICES.map(([l, w]) => (
-            <button key={l} onClick={() => setDevice(w)} aria-selected={device === w} aria-pressed={device === w}>
+            <button key={l} onClick={() => setDevice(w)} aria-pressed={device === w}>
               {l}
             </button>
           ))}

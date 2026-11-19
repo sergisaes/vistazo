@@ -166,7 +166,10 @@ a {
   .segmented > a {
     @apply inline-flex min-h-8 items-center gap-1.5 rounded-md px-3 font-medium whitespace-nowrap text-muted transition-colors hover:text-ink;
   }
+  /* Selected segment: tabs use aria-selected, radios aria-checked, toggle buttons aria-pressed. */
   .segmented > [aria-selected="true"],
+  .segmented > [aria-checked="true"],
+  .segmented > [aria-pressed="true"],
   .segmented > [aria-current="page"] {
     @apply bg-card text-ink shadow-[0_1px_2px_rgb(var(--shadow)/0.12)];
   }
