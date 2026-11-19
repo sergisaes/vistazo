@@ -293,12 +293,12 @@ function EditForm({ ctx, onClose }: { ctx: Ctx; onClose: () => void }) {
           <legend className="label flex w-full items-center justify-between">
             Test kit
             <span className="segmented text-xs">
-              <button type="button" aria-selected={kitMode === "list"} onClick={() => setKitMode("list")}>
+              <button type="button" aria-pressed={kitMode === "list"} onClick={() => setKitMode("list")}>
                 List
               </button>
               <button
                 type="button"
-                aria-selected={kitMode === "json"}
+                aria-pressed={kitMode === "json"}
                 onClick={() => {
                   if (kitMode === "list") {
                     try {
