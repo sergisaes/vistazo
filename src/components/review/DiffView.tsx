@@ -194,8 +194,9 @@ function Single({ asset, label, cls }: { asset: Asset; label: string; cls: strin
 }
 
 function ImageDiff({ before, after, result, from, to }: { before: Asset; after: Asset; result?: Result; from: number; to: number }) {
-  const [mode, setMode] = useState<"zones" | "slider" | "side">("zones");
+  const [mode, setMode] = useState<"zones" | "slider" | "side" | "scan">("zones");
   const [cut, setCut] = useState(50);
+  const [run, setRun] = useState(0); // bumps to replay the scanner
   const boxes = result && !("error" in result) ? result.boxes : [];
   const status = !result
     ? { t: "Comparing…", c: "bg-neutral text-muted" }
@@ -216,13 +217,27 @@ function ImageDiff({ before, after, result, from, to }: { before: Asset; after: 
               ["zones", "Zones"],
               ["slider", "Before and now"],
               ["side", "Side by side"],
+              ["scan", "Scanner"],
             ] as const
           ).map(([k, l]) => (
-            <button key={k} role="tab" aria-selected={mode === k} onClick={() => setMode(k)}>
+            <button
+              key={k}
+              role="tab"
+              aria-selected={mode === k}
+              onClick={() => {
+                setMode(k);
+                if (k === "scan") setRun((n) => n + 1);
+              }}
+            >
               {l}
             </button>
           ))}
         </div>
+        {mode === "scan" && (
+          <button type="button" className="btn btn-sm" onClick={() => setRun((n) => n + 1)}>
+            Replay
+          </button>
+        )}
       </div>
       {mode === "zones" && (
         <div className="relative overflow-hidden rounded-xl border border-line bg-white">
@@ -238,6 +253,28 @@ function ImageDiff({ before, after, result, from, to }: { before: Asset; after: 
               <span className="absolute -left-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[11px] font-bold text-on-accent">{i + 1}</span>
             </span>
           ))}
+        </div>
+      )}
+      {mode === "scan" && (
+        // Keyed by run: changing it restarts the CSS animation (see .scanner-run in globals.css).
+        <div key={run} className="scanner-run relative overflow-hidden rounded-xl border border-line bg-white">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={fileUrl(before.pathname)} alt={`Screenshot of v${from}`} className="block w-full" />
+          <div className="scanner-now absolute inset-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={fileUrl(after.pathname)} alt={`Screenshot of v${to}`} className="block w-full" />
+            {boxes.map((b, i) => (
+              <span
+                key={i}
+                aria-hidden
+                className="scanner-zone absolute rounded-md border-2 border-accent bg-accent/10"
+                style={{ left: `${b.x * 100}%`, top: `${b.y * 100}%`, width: `${b.w * 100}%`, height: `${b.h * 100}%`, "--at": b.y } as React.CSSProperties}
+              >
+                <span className="absolute -left-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[11px] font-bold text-on-accent">{i + 1}</span>
+              </span>
+            ))}
+          </div>
+          <span aria-hidden className="scanner-beam absolute inset-x-0 h-0.5 bg-accent shadow-[0_0_14px_3px_var(--accent)]" />
         </div>
       )}
       {mode === "side" && (
